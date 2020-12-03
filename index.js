@@ -43,6 +43,7 @@ function serveReset(req, res) {
 }
 
 function serveNotFound(req, res) {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.write("Not found");
 }
 
