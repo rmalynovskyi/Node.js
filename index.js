@@ -2,7 +2,6 @@ const http = require('http');
 const URL = require('url');
 const path = require('path');
 const fs = require('fs');
-//let counter = 0;
 
 function handler(req, res) {
     try {
@@ -57,26 +56,3 @@ function serveStatic(req, res, customFileName) {
 
 const server = http.createServer(handler);
 server.listen(process.env.PORT);
-
-
-// Not in use
-/*function serveIndex(req, res) {
-    if (req.url != "/favicon.ico") {
-        counter++;
-    }
-}
-
-function serveCounter(req, res) {
-    res.write(`Номер запроса: ${counter}`);
-}
-
-function serveReset(req, res) {
-    counter = 0;
-    res.write("Счетчик сброшен");
-}
-
-function serveNotFound(req, res) {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.write("Not found");
-}
-*/
