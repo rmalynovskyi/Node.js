@@ -5,20 +5,24 @@ const fs = require('fs');
 //let counter = 0;
 
 function handler(req, res) {
-    const parsedURL = URL.parse(req.url);
-    switch (parsedURL.pathname) {
-        case "/":
-            serveStatic(req, res, "index.html");
-            break;
-        case "/static/main.css":
-            serveStatic(req, res, "main.css")
-            break;
-        case "/static/product.png":
-            serveStatic(req, res, "product.png");
-            break;
+    try {
+        const parsedURL = URL.parse(req.url);
+        switch (parsedURL.pathname) {
+            case "/":
+                serveStatic(req, res, "index.html");
+                break;
+            case "/static/main.css":
+                serveStatic(req, res, "main.css");
+                break;
+            case "/static/product.png":
+                serveStatic(req, res, "product.png");
+                break;
+        }
+    }
+    catch (err) {
+        console.error(err)
     }
     console.log("Request, url:", req.url);
-    res.end();
 }
 
 function serveStatic(req, res, customFileName) {
@@ -35,8 +39,8 @@ function serveStatic(req, res, customFileName) {
             res.writeHead(200, { 'Content-Type': 'image/png; charset=utf8' });
             break;
     }
-    const content = fs.readFileSync("static/" + filename);
-    res.write(content);
+    const readable = fs.createReadStream('static/' + filename);
+    readable.pipe(res);
 }
 
 const server = http.createServer(handler);
