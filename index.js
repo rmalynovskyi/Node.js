@@ -14,8 +14,20 @@ function handler(req, res) {
             case "/static/main.css":
                 serveStatic(req, res, "main.css");
                 break;
+            case "/product":
+                serveStatic(req, res, "product.html");
+                break;
+            case "/product1":
+                serveStatic(req, res, "product1.html");
+                break;
+            case "/static/product.css":
+                serveStatic(req, res, "product.css");
+                break;
             case "/static/product.png":
                 serveStatic(req, res, "product.png");
+                break;
+            case "/static/product1.png":
+                serveStatic(req, res, "product1.png");
                 break;
         }
     }

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/static/main.css">
 <header class="row bg-primary">
     <nav class="navbar navbar-dark navbar-expand">
-        <div class="col-8 offset-4">
+        <div class="col-sm-10 offset-2">
             <div class=navbar-nav>
                 <a class="nav-item nav-link active" href="#">Каталог</a>
                 <a class="nav-item nav-link" href="#">Доставка</a>
@@ -14,32 +14,32 @@
 </header>
 
 <main class="row">
-    <div class=" col-md-8 offset-md-2 col-sm-10 offset-sm-1">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Каталог</a></li>
-                <li class="breadcrumb-item"><a href="#">Вентиляция</a></li>
-                <li class="breadcrumb-item"><a href="#">ПВУ</a></li>
-            </ol>
-            <h3>
-                ПВУ Turkov ZENIT 350 HECO
-            </h3>
-        </nav>
-        <div class="nav nav-tabs">
-            <a class="nav-item nav-link active" href="#">Описание</a>
-            <a class="nav-item nav-link" href="#">Характеристики</a>
-            <a class="nav-item nav-link" href="#">Отзывы</a>
-        </div>
-        <div class="content">
-            <div class="col-3">
-                <img class="img-fluid float-left pic" src="/static/product.png" />
+    <div class="col-sm-5 offset-sm-1">
+        <a class="product" href="/product">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="static/product.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">ПВУ Turkov ZENIT 350 HECO</h5>
+                    <p class="card-text">Вентиляционная установка с рекуперацией тепла и влаги</p>
+                    <h5 class="card-title">Цена: 5000 грн.</h5>
+                    <a href="#" class="btn btn-primary ">Заказать</a>
+                </div>
             </div>
-            <div class="text">
-                Вентиляционная установка с рекуперацией тепла и влаги в легком и универсальном корпусе из вспенненного полипропилена предназначена для поддержания климата в жилых помещениях,или небольших офисах, магазинах.
+        </a>
+    </div>
+
+    <div class="col-sm-5 offset-sm-1">
+        <a class="product" href="/product1">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top " src="static/product1.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Beats Studio Wireless Over-Ear Headphones</h5>
+                    <p class="card-text">Беспроводные наушники Beats Studio</p>
+                    <h5 class="card-title">Цена: 10000 грн.</h5>
+                    <a href="#" class="btn btn-primary ">Заказать</a>
+                </div>
             </div>
-            <hr class="line">
-            <button type="button" class="btn btn-primary button">Заказать</button>
-        </div>
+        </a>
     </div>
 </main>
 

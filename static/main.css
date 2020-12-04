@@ -1,44 +1,27 @@
 main {
-  background-color: #cbcbcb;
-  height: 386px;
-  display: flex;
-  min-height: calc(100vh - 60px - 70px);
-  flex-direction: column;
+    background-color: #cbcbcb;
+    height: 500px;
+    display: flex;
+    min-height: calc(100vh - 60px - 70px);
 }
 
-main.row > div {
-  background-color: white;
-  height: 386px;
-  padding: 10px 20px 20px 20px;
-  flex: 1;
+footer.row>div {
+    line-height: 60px;
+    color: white;
+    background: #37474f;
+    padding-left: 135px;
 }
 
-footer.row > div {
-  line-height: 60px;
-  color: white;
-  background: #37474f;
-  padding-left: 135px;
+.card {
+    margin-top: 30px;
 }
 
-.pic {
-  margin-left: -15px;
-  margin-right: 20px;
+.product {
+    text-decoration: none !important;
+    color: black;
 }
 
-.content {
-  padding-top: 20px;
-}
-
-.text {
-  margin-left: 125px;
-  padding-right: 10px;
-}
-
-.line {
-  height: 5px;
-  margin-left: 125px;
-}
-
-.button {
-  margin-left: 125px;
+img {
+    width: 200px;
+    height: 200px;
 }
