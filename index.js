@@ -2,13 +2,15 @@ const http = require('http');
 const URL = require('url');
 const path = require('path');
 const fs = require('fs');
+const ejs = require('ejs');
+const ProductService = require('./ProductService.js');
 
 function handler(req, res) {
     try {
         const parsedURL = URL.parse(req.url);
         switch (parsedURL.pathname) {
             case "/":
-                serveStatic(req, res, "index.html");
+                serveIndex(req, res, "index.html");
                 break;
             case "/static/main.css":
                 serveStatic(req, res, "main.css");
@@ -31,12 +33,27 @@ function handler(req, res) {
         }
     }
     catch (err) {
-        console.error(err)
+        console.error(err);
     }
     console.log("Request, url:", req.url);
 }
 
 function serveStatic(req, res, customFileName) {
+    const filename = setHeaderForFile(req, res, customFileName);
+    const readable = fs.createReadStream('static/' + filename);
+    readable.pipe(res);
+}
+
+function serveIndex(req, res, customFileName) {
+    const filename = setHeaderForFile(req, res, customFileName);
+    const products = ProductService.getProducts();
+    const template = ejs.compile(fs.readFileSync('static/' + filename).toString());
+    const content = template(products[0]);
+    res.write(content);
+    res.end();
+}
+
+function setHeaderForFile(req, res, customFileName) {
     const filename = customFileName ? customFileName : path.basename(req.url);
     const extension = path.extname(filename);
     switch (extension) {
@@ -50,9 +67,9 @@ function serveStatic(req, res, customFileName) {
             res.writeHead(200, { 'Content-Type': 'image/png; charset=utf8' });
             break;
     }
-    const readable = fs.createReadStream('static/' + filename);
-    readable.pipe(res);
+    return filename;
 }
 
 const server = http.createServer(handler);
+ProductService.init();
 server.listen(process.env.PORT);

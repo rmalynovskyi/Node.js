@@ -14,14 +14,20 @@
 </header>
 
 <main class="row">
+
     <div class="col-sm-5 offset-sm-1">
-        <a class="product" href="/product">
+        <a class="product" href="<%= product.URL %>">
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="static/product.png" alt="Card image cap">
+                <img class="card-img-top" src="<%= product.imgURL %>" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">ПВУ Turkov ZENIT 350 HECO</h5>
-                    <p class="card-text">Вентиляционная установка с рекуперацией тепла и влаги</p>
-                    <h5 class="card-title">Цена: 5000 грн.</h5>
+                    <h5 class="card-title">
+                        <%= product.title %>
+                    </h5>
+                    <p class="card-text">
+                        <%= product.description %>
+                    </p>
+                    <h5 class="card-title">Цена:
+                        <%= product.price %> грн.</h5>
                     <a href="#" class="btn btn-primary ">Заказать</a>
                 </div>
             </div>
