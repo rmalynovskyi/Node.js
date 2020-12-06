@@ -17,14 +17,13 @@
     <div class=" col-md-8 offset-md-2 col-sm-10 offset-sm-1">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Каталог</a></li>
-                <li class="breadcrumb-item"><a href="#">Вентиляция</a></li>
-                <li class="breadcrumb-item"><a href="#">ПВУ</a></li>
+                <li class="breadcrumb-item"><a href="/">Главная страница</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Данные продукта</li>
             </ol>
-            <h3>
-                ПВУ Turkov ZENIT 350 HECO
-            </h3>
         </nav>
+        <h3>
+            <%= product.title %>
+        </h3>
         <div class="nav nav-tabs">
             <a class="nav-item nav-link active" href="#">Описание</a>
             <a class="nav-item nav-link" href="#">Характеристики</a>
@@ -32,10 +31,10 @@
         </div>
         <div class="content">
             <div class="col-3">
-                <img class="img-fluid float-left pic" src="/static/product.png" />
+                <img class="img-fluid float-left pic" src="<%= product.imgURL %>" />
             </div>
             <div class="text">
-                Вентиляционная установка с рекуперацией тепла и влаги в легком и универсальном корпусе из вспенненного полипропилена предназначена для поддержания климата в жилых помещениях,или небольших офисах, магазинах.
+                <%= product.details %>
             </div>
             <hr class="line">
             <button type="button" class="btn btn-primary button">Заказать</button>
