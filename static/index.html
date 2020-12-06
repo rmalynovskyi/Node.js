@@ -14,39 +14,27 @@
 </header>
 
 <main class="row">
-
-    <div class="col-sm-5 offset-sm-1">
-        <a class="product" href="<%= product.URL %>">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="<%= product.imgURL %>" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= product.title %>
-                    </h5>
-                    <p class="card-text">
-                        <%= product.description %>
-                    </p>
-                    <h5 class="card-title">Цена:
-                        <%= product.price %> грн.</h5>
-                    <a href="#" class="btn btn-primary ">Заказать</a>
-                </div>
+    <% for (let i = 0; i < products.length; i++) { %>
+        <% let product = products[i]; %>
+            <div class="col-sm-5 offset-sm-1">
+                <a class="product" href="<%= product.URL %>">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="<%= product.imgURL %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= product.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= product.description %>
+                            </p>
+                            <h5 class="card-title">Цена:
+                                <%= product.price %> грн.</h5>
+                            <a href="#" class="btn btn-primary ">Заказать</a>
+                        </div>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-
-    <div class="col-sm-5 offset-sm-1">
-        <a class="product" href="/product1">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top " src="static/product1.png" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Beats Studio Wireless Over-Ear Headphones</h5>
-                    <p class="card-text">Беспроводные наушники Beats Studio</p>
-                    <h5 class="card-title">Цена: 10000 грн.</h5>
-                    <a href="#" class="btn btn-primary ">Заказать</a>
-                </div>
-            </div>
-        </a>
-    </div>
+            <% } %>
 </main>
 
 <footer class="row">

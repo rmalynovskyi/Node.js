@@ -46,9 +46,12 @@ function serveStatic(req, res, customFileName) {
 
 function serveIndex(req, res, customFileName) {
     const filename = setHeaderForFile(req, res, customFileName);
-    const products = ProductService.getProducts();
     const template = ejs.compile(fs.readFileSync('static/' + filename).toString());
-    const content = template(products[0]);
+    const products = ProductService.getProducts();
+    const scope = {
+        products: products
+    };
+    const content = template(scope);
     res.write(content);
     res.end();
 }
