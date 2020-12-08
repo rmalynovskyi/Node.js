@@ -47,12 +47,14 @@ function serveIndex(req, res, customFileName) {
     const filename = setHeaderForFile(req, res, customFileName);
     const template = ejs.compile(fs.readFileSync(filename).toString());
     const products = ProductService.getProducts();
-    const scope = {
-        products: products
-    };
-    const content = template(scope);
-    res.write(content);
-    res.end();
+    products.then(function(products) {
+        const scope = {
+            products: products
+        };
+        const content = template(scope);
+        res.write(content);
+        res.end();
+    });
 }
 
 function serveProduct(req, res, customFileName) {
@@ -70,6 +72,7 @@ function serveProduct(req, res, customFileName) {
     res.write(content);
     res.end();
 }
+
 
 function setHeaderForFile(req, res, customFileName) {
     const filename = customFileName ? customFileName : path.basename(req.url);
