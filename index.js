@@ -65,12 +65,14 @@ function serveProduct(req, res, customFileName) {
     const slugParts = slugPart.split("-");
     const key = slugParts[0];
     const desiredProduct = ProductService.getProductByKey(key);
-    const scope = {
-        product: desiredProduct
-    };
-    const content = template(scope);
-    res.write(content);
-    res.end();
+    desiredProduct.then(function(product) {
+        const scope = {
+            product: product
+        };
+        const content = template(scope);
+        res.write(content);
+        res.end();
+    });
 }
 
 

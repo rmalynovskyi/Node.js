@@ -24,6 +24,9 @@ module.exports = {
   },
 
   getProductByKey(customKey) {
-    return getProducts.find(product => product.key == customKey);
+    return new Promise(function(resolve, reject) {
+      const product = productCollection.findOne({ key: Number(customKey) });
+      resolve(product);
+    });
   }
 };
