@@ -51,6 +51,7 @@ function serveIndex(req, res, customFileName) {
     const filename = setHeaderForFile(req, res, customFileName);
     const template = ejs.compile(fs.readFileSync(filename).toString());
     const products = ProductService.getProducts();
+    
     products.then(function(products) {
         const scope = {
             products: products
@@ -69,21 +70,20 @@ function serveProduct(req, res, customFileName) {
     const slugParts = slugPart.split("-");
     const key = slugParts[0];
     const desiredProduct = ProductService.getProductByKey(key);
-    console.log(desiredProduct);
-    if (desiredProduct === null) {
-        serveNotFound(req, res, "Введенный вами товар не найден");
-    }
-    else {
-        desiredProduct.then(function(product) {
+
+    desiredProduct.then(function(product) {
+        if (product != null) {
             const scope = {
                 product: product
             };
             const content = template(scope);
             res.write(content);
             res.end();
-        });
-    }
-
+        }
+        else {
+            serveNotFound(req, res, "Введенный вами товар не найден");
+        }
+    });
 }
 
 function serveNotFound(req, res, customText) {
@@ -103,6 +103,10 @@ function setHeaderForFile(req, res, customFileName) {
     const extension = path.extname(filename);
     switch (extension) {
         case '.html':
+            if (filename === "notFound.html") {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf8' });
+                break;
+            }
             res.writeHead(200, { 'Content-Type': 'text/html; charset=utf8' });
             break;
         case '.css':
