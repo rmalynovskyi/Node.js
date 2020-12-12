@@ -11,6 +11,7 @@ function handler(req, res) {
 
         if (parsedURL.pathname.indexOf("/product/") === 0) {
             serveProduct(req, res, "product.html");
+            return;
         }
 
         switch (parsedURL.pathname) {
@@ -28,6 +29,9 @@ function handler(req, res) {
                 break;
             case "/static/product1.png":
                 serveStatic(req, res, "product1.png");
+                break;
+            default:
+                serveNotFound(req, res);
                 break;
         }
     }
@@ -65,16 +69,34 @@ function serveProduct(req, res, customFileName) {
     const slugParts = slugPart.split("-");
     const key = slugParts[0];
     const desiredProduct = ProductService.getProductByKey(key);
-    desiredProduct.then(function(product) {
-        const scope = {
-            product: product
-        };
-        const content = template(scope);
-        res.write(content);
-        res.end();
-    });
+    console.log(desiredProduct);
+    if (desiredProduct === null) {
+        serveNotFound(req, res, "Введенный вами товар не найден");
+    }
+    else {
+        desiredProduct.then(function(product) {
+            const scope = {
+                product: product
+            };
+            const content = template(scope);
+            res.write(content);
+            res.end();
+        });
+    }
+
 }
 
+function serveNotFound(req, res, customText) {
+    const fileName = setHeaderForFile(req, res, "notFound.html");
+    const text = customText ? customText : "Введенная вами страница на сайте не обнаружена.";
+    const template = ejs.compile(fs.readFileSync(fileName).toString());
+    const scope = {
+        text: text
+    };
+    const content = template(scope);
+    res.write(content);
+    res.end();
+}
 
 function setHeaderForFile(req, res, customFileName) {
     const filename = customFileName ? customFileName : path.basename(req.url);
