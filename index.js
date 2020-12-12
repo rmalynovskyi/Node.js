@@ -51,7 +51,7 @@ function serveIndex(req, res, customFileName) {
     const filename = setHeaderForFile(req, res, customFileName);
     const template = ejs.compile(fs.readFileSync(filename).toString());
     const products = ProductService.getProducts();
-    
+
     products.then(function(products) {
         const scope = {
             products: products
@@ -69,10 +69,15 @@ function serveProduct(req, res, customFileName) {
     const slugPart = url.pathname.replace("/product/", "");
     const slugParts = slugPart.split("-");
     const key = slugParts[0];
+    const slug = slugPart.slice(key.length + 1);
     const desiredProduct = ProductService.getProductByKey(key);
 
     desiredProduct.then(function(product) {
         if (product != null) {
+            if (slug != product.slug) {
+                const urlRedirect = `/product/${product.key}-${product.slug}`;
+                res.writeHead(301, { 'Location': urlRedirect });
+            }
             const scope = {
                 product: product
             };
