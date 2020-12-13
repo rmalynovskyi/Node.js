@@ -1,0 +1,27 @@
+main {
+    background-color: #cbcbcb;
+    height: 500px;
+    display: flex;
+    min-height: calc(100vh - 60px - 70px);
+}
+
+footer.row>div {
+    line-height: 60px;
+    color: white;
+    background: #37474f;
+    padding-left: 135px;
+}
+
+.card {
+    margin-top: 30px;
+}
+
+.product {
+    text-decoration: none !important;
+    color: black;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+}
