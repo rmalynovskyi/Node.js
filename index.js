@@ -43,7 +43,7 @@ function handler(req, res) {
 
 function serveStatic(req, res, customFileName) {
     const filename = setHeaderForFile(req, res, customFileName);
-    const readable = fs.createReadStream('static/' + filename);
+    const readable = fs.createReadStream('public/' + filename);
     readable.pipe(res);
 }
 
