@@ -10,13 +10,18 @@ function handler(req, res) {
         const parsedURL = URL.parse(req.url);
 
         if (parsedURL.pathname.indexOf("/product/") === 0) {
-            serveProduct(req, res, "product.html");
+            //   serveProduct(req, res, "product.html");
+            serveSPA(req, res);
             return;
         }
 
         switch (parsedURL.pathname) {
             case "/":
-                serveIndex(req, res, "index.html");
+                // serveIndex(req, res, "index.html");
+                serveSPA(req, res, "spa.html");
+                break;
+            case "/bundle.js":
+                serveSPA(req, res, "public/bundle.js");
                 break;
             case "/static/main.css":
                 serveStatic(req, res, "main.css");
@@ -39,6 +44,12 @@ function handler(req, res) {
         console.error(err);
     }
     console.log("Request, url:", req.url);
+}
+
+function serveSPA(req, res, customFileName) {
+    const fileName = setHeaderForFile(req, res, customFileName);
+    const readable = fs.createReadStream(fileName);
+    readable.pipe(res);
 }
 
 function serveStatic(req, res, customFileName) {
