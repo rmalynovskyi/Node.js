@@ -1,8 +1,6 @@
 import React from "react";
 import Navigation from "/static/components/Navigation.jsx";
 import ProductBox from "/static/components/ProductBox.jsx";
-/*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/static/product.css">*/
 
 export default class ProductPage extends React.Component {
     render() {

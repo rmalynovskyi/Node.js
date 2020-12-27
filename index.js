@@ -9,6 +9,10 @@ function handler(req, res) {
     try {
         const parsedURL = URL.parse(req.url);
 
+        if (parsedURL.pathname.indexOf("/api/products/") === 0) {
+            serveAPI(req, res, parsedURL.pathname);
+            return;
+        }
         if (parsedURL.pathname.indexOf("/product/") === 0) {
             //   serveProduct(req, res, "product.html");
             serveSPA(req, res);
@@ -44,6 +48,33 @@ function handler(req, res) {
         console.error(err);
     }
     console.log("Request, url:", req.url);
+}
+
+function serveAPI(req, res, str) {
+    const array = str.split("/");
+    if (array.length === 4) {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf8' });
+        if (array[3] === "") {
+            const products = ProductService.getProducts();
+            products.then(function(products) {
+                res.write(JSON.stringify(products));
+                res.end();
+            });
+        }
+        else if (array[3].match(/^[0-9a-fA-F]{24}$/)) {
+            const product = ProductService.findById(array[3]);
+            product.then(function(product) {
+                if (product != null) {
+                    res.write(JSON.stringify(product));
+                }
+                else {
+                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf8' });
+                    res.write("Not found");
+                }
+                res.end();
+            });
+        }
+    }
 }
 
 function serveSPA(req, res, customFileName) {

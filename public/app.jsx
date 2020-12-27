@@ -10,11 +10,11 @@ const history = createBrowserHistory();
 
 class App extends React.Component {
   render() {
-    return <Router history={ history }>
+    return <Router history={ history }>git 
       <Switch>
         <Route exact path="/" component={IndexPage} />
         <Route exact path="/product/prod1" component={ProductPage} />
-        <Route exact path="/product/:prod2" component={ProductPage1} />
+        <Route exact path="/product/prod2" component={ProductPage1} />
       </Switch>
     </Router>;
   }
