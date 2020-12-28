@@ -9,7 +9,7 @@ function handler(req, res) {
     try {
         const parsedURL = URL.parse(req.url);
 
-        if (parsedURL.pathname.indexOf("/api/products/") === 0) {
+        if (parsedURL.pathname.indexOf("/api/products") === 0) {
             serveAPI(req, res, parsedURL.pathname);
             return;
         }
@@ -52,30 +52,36 @@ function handler(req, res) {
 
 function serveAPI(req, res, str) {
     const array = str.split("/");
-    if (array.length === 4) {
-        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf8' });
-        if (array[3] === "") {
-            const products = ProductService.getProducts();
-            products.then(function(products) {
-                res.write(JSON.stringify(products));
-                res.end();
-            });
-        }
-        else if (array[3].match(/^[0-9a-fA-F]{24}$/)) {
-            const product = ProductService.findById(array[3]);
-            product.then(function(product) {
-                if (product != null) {
-                    res.write(JSON.stringify(product));
-                }
-                else {
-                    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf8' });
-                    res.write("Not found");
-                }
-                res.end();
-            });
-        }
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf8' });
+    if (array.length === 3 || array.length === 4 && array[3] === "") {
+        const products = ProductService.getProducts();
+        products.then(function(products) {
+            res.write(JSON.stringify(products));
+            res.end();
+        });
+    }
+    else if (array.length === 4 && array[3].match(/^[0-9a-fA-F]{24}$/)) {
+        const product = ProductService.findById(array[3]);
+        product.then(function(product) {
+            if (product != null) {
+                res.write(JSON.stringify(product));
+            }
+            else {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf8' });
+                res.write("Not found");
+            }
+            res.end();
+        });
+    }
+    else {
+        ProductService.findById(array[3]).catch(function(err) {
+            res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf8' });
+            res.write(err.message);
+            res.end();
+        });
     }
 }
+
 
 function serveSPA(req, res, customFileName) {
     const fileName = setHeaderForFile(req, res, customFileName);
@@ -115,22 +121,27 @@ function serveProduct(req, res, customFileName) {
     const desiredProduct = ProductService.getProductByKey(key);
 
     desiredProduct.then(function(product) {
-        if (product != null) {
-            if (slug != product.slug) {
-                const urlRedirect = `/product/${product.key}-${product.slug}`;
-                res.writeHead(301, { 'Location': urlRedirect });
+            if (product != null) {
+                if (slug != product.slug) {
+                    const urlRedirect = `/product/${product.key}-${product.slug}`;
+                    res.writeHead(301, { 'Location': urlRedirect });
+                }
+                const scope = {
+                    product: product
+                };
+                const content = template(scope);
+                res.write(content);
+                res.end();
             }
-            const scope = {
-                product: product
-            };
-            const content = template(scope);
-            res.write(content);
+            else {
+                serveNotFound(req, res, "Введенный вами товар не найден");
+            }
+        })
+        .catch(function(err) {
+            res.writeHead(500, { 'Content-Type': 'text/html; charset=utf8' });
+            res.write(err.message);
             res.end();
-        }
-        else {
-            serveNotFound(req, res, "Введенный вами товар не найден");
-        }
-    });
+        });
 }
 
 function serveNotFound(req, res, customText) {

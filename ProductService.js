@@ -25,16 +25,28 @@ module.exports = {
 
   getProductByKey(customKey) {
     return new Promise(function(resolve, reject) {
-      const product = productCollection.findOne({ key: Number(customKey) });
+      let productKey;
+      try {
+        productKey = Number(customKey);
+      }
+      catch (err) {
+        reject(err);
+      }
+      const product = productCollection.findOne({ key: productKey });
       resolve(product);
     });
   },
 
   findById(customId) {
     return new Promise(function(resolve, reject) {
-      const product = productCollection.findOne({ _id: ObjectID(customId) });
-      resolve(product);
+      let productId;
+      try {
+        productId = ObjectID(customId);
+      }
+      catch (err) {
+        reject(err);
+      }
+      resolve(productCollection.findOne({ _id: productId }));
     });
   }
-
 };
