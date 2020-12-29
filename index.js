@@ -56,8 +56,10 @@ function serveAPI(req, res, str) {
     if (array.length === 3 || array.length === 4 && array[3] === "") {
         const products = ProductService.getProducts();
         products.then(function(products) {
-            res.write(JSON.stringify(products));
-            res.end();
+            setTimeout(function() {
+                res.write(JSON.stringify(products));
+                res.end();
+            }, 2000);
         });
     }
     else if (array.length === 4 && array[3].match(/^[0-9a-fA-F]{24}$/)) {

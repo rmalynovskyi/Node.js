@@ -5,7 +5,8 @@ export default class IndexPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: [],
+            status: "idle"
         };
     }
 
@@ -25,7 +26,9 @@ export default class IndexPage extends React.Component {
 </header>
 
 <main className="row">
-     {this.state.products? this.renderProducts() : false} 
+     {this.state.products? this.renderProducts(): false} 
+     {this.state.status==="ready" ? this.renderBootstrapAlertSuccess() : false}
+     {this.state.status==="error" ? this.renderBootstrapAlertError() : false}
 </main>
 
 <footer className="row">
@@ -37,13 +40,17 @@ export default class IndexPage extends React.Component {
     }
 
     componentDidMount() {
-        fetch("api/products").then(function(response) {
-            return response.json();
-        }).then(function(json) {
-            this.setState({
-                products: json
+        this.setState({ status: "pending" });
+         fetch("api/products").then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                this.setState({ products: json });
+                this.setState({ status: "ready" });
+            }.bind(this))
+            .catch(function(err) {
+                console.log(err);
+                this.setState({ status: "error" });
             });
-        }.bind(this));
     }
 
     renderProducts() {
@@ -60,5 +67,17 @@ export default class IndexPage extends React.Component {
             </div> 
             </div>;
         }, this);
+    }
+
+    renderBootstrapAlertSuccess() {
+        return <div class="alert alert-primary" role="alert">
+                 Everything was OK
+            </div>;
+    }
+
+    renderBootstrapAlertError() {
+        return <div class="alert alert-danger" role="alert">
+                 Error during request
+              </div>;
     }
 }
