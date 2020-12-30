@@ -4,15 +4,16 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 const ProductService = require('./ProductService.js');
+const queryString = require('query-string');
 
 function handler(req, res) {
     try {
         const parsedURL = URL.parse(req.url);
-
         if (parsedURL.pathname.indexOf("/api/products") === 0) {
-            serveAPI(req, res, parsedURL.pathname);
+            serveAPI(req, res, parsedURL);
             return;
         }
+
         if (parsedURL.pathname.indexOf("/product/") === 0) {
             //   serveProduct(req, res, "product.html");
             serveSPA(req, res);
@@ -24,6 +25,9 @@ function handler(req, res) {
                 // serveIndex(req, res, "index.html");
                 serveSPA(req, res, "spa.html");
                 break;
+          /*  case "/111":
+                serveSPA(req, res, "spa.html");
+                break;*/
             case "/bundle.js":
                 serveSPA(req, res, "public/bundle.js");
                 break;
@@ -48,11 +52,21 @@ function handler(req, res) {
         console.error(err);
     }
     console.log("Request, url:", req.url);
+
 }
 
 function serveAPI(req, res, str) {
-    const array = str.split("/");
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf8' });
+    if (str.search != null) {
+        const parsed = queryString.parse(str.search);
+        const products = ProductService.getProducts(parsed);
+        products.then(function(products) {
+            res.write(JSON.stringify(products));
+            res.end();
+        });
+        return;
+    }
+    const array = str.pathname.split("/");
     if (array.length === 3 || array.length === 4 && array[3] === "") {
         const products = ProductService.getProducts();
         products.then(function(products) {

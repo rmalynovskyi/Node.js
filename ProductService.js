@@ -12,10 +12,18 @@ module.exports = {
       });
   },
 
-
-  getProducts() {
+  getProducts(where) {
     return new Promise(function(resolve, reject) {
-      const cursor = productCollection.find();
+      let cursor;
+      if (where) {
+        if (where.key) {
+          where.key = Number(where.key);
+        }
+        cursor = productCollection.find(where);
+      }
+      else {
+        cursor = productCollection.find();
+      }
       const promise = cursor.toArray();
       promise.then(function(products) {
         resolve(products);

@@ -41,7 +41,7 @@ export default class IndexPage extends React.Component {
 
     componentDidMount() {
         this.setState({ status: "pending" });
-         fetch("api/products").then(function(response) {
+        fetch("api/products").then(function(response) {
                 return response.json();
             }).then(function(json) {
                 this.setState({ products: json });
@@ -62,7 +62,7 @@ export default class IndexPage extends React.Component {
                     <h5 className="card-title">{item.title}</h5>
                     <p  className="card-text">{item.description}</p>
                     <h5  className="card-title">Цена: {item.price} грн.</h5>
-                    <Link to={"/product/prod"+ (index+1)} className="btn btn-primary ">Заказать</Link>
+                    <Link to= {"" + item.key} className="btn btn-primary ">Заказать</Link>
                 </div>
             </div> 
             </div>;
